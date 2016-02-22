@@ -86,11 +86,11 @@ FILES_${PN}-client = "${base_sbindir}/*mount.nfs* ${sbindir}/*statd \
 		      ${sysconfdir}/nfs-utils.conf \
 		      ${sysconfdir}/nfsmount.conf \
 		      ${sysconfdir}/init.d/nfscommon \
-		      ${systemd_unitdir}/system/nfs-statd.service"
+		      ${systemd_system_unitdir}/nfs-statd.service"
 FILES_${PN}-stats = "${sbindir}/mountstats ${sbindir}/nfsiostat"
 RDEPENDS_${PN}-stats = "python"
 
-FILES_${PN} += "${systemd_unitdir}"
+FILES_${PN} += "${systemd_system_unitdir}"
 
 do_configure_prepend() {
         sed -i -e 's,sbindir = /sbin,sbindir = ${base_sbindir},g' \
@@ -114,19 +114,19 @@ do_install_append () {
 	install -m 0755 ${WORKDIR}/nfs-utils.conf ${D}${sysconfdir}
 	install -m 0755 ${S}/utils/mount/nfsmount.conf ${D}${sysconfdir}
 
-	install -d ${D}${systemd_unitdir}/system
-	install -m 0644 ${WORKDIR}/nfs-server.service ${D}${systemd_unitdir}/system/
-	install -m 0644 ${WORKDIR}/nfs-mountd.service ${D}${systemd_unitdir}/system/
-	install -m 0644 ${WORKDIR}/nfs-statd.service ${D}${systemd_unitdir}/system/
+	install -d ${D}${systemd_system_unitdir}
+	install -m 0644 ${WORKDIR}/nfs-server.service ${D}${systemd_system_unitdir}/
+	install -m 0644 ${WORKDIR}/nfs-mountd.service ${D}${systemd_system_unitdir}/
+	install -m 0644 ${WORKDIR}/nfs-statd.service ${D}${systemd_system_unitdir}/
 	sed -i -e 's,@SBINDIR@,${sbindir},g' \
 		-e 's,@SYSCONFDIR@,${sysconfdir},g' \
-		${D}${systemd_unitdir}/system/*.service
+		${D}${systemd_system_unitdir}/*.service
 	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
 	    install -d ${D}${sysconfdir}/modules-load.d
 	    echo "nfsd" > ${D}${sysconfdir}/modules-load.d/nfsd.conf
-	    install -m 0644 ${WORKDIR}/proc-fs-nfsd.mount ${D}${systemd_unitdir}/system/
-	    install -d ${D}${systemd_unitdir}/system/sysinit.target.wants/
-	    ln -sf ../proc-fs-nfsd.mount ${D}${systemd_unitdir}/system/sysinit.target.wants/proc-fs-nfsd.mount
+	    install -m 0644 ${WORKDIR}/proc-fs-nfsd.mount ${D}${systemd_system_unitdir}/
+	    install -d ${D}${systemd_system_unitdir}/sysinit.target.wants/
+	    ln -sf ../proc-fs-nfsd.mount ${D}${systemd_system_unitdir}/sysinit.target.wants/proc-fs-nfsd.mount
 	fi
 
 	# kernel code as of 3.8 hard-codes this path as a default
