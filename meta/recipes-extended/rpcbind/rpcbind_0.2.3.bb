@@ -47,7 +47,7 @@ USERADD_PARAM_${PN} = "--system --no-create-home --home-dir / \
                        --shell /bin/false --user-group rpc"
 
 PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
-PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_unitdir}/system/, \
+PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_system_unitdir}/, \
                           --without-systemdsystemunitdir, \
                           systemd \
 "
@@ -64,10 +64,10 @@ do_install_append () {
 	chmod 0755 ${D}${sysconfdir}/init.d/rpcbind
 
 	install -m 0755 ${WORKDIR}/rpcbind.conf ${D}${sysconfdir}
-	install -d ${D}${systemd_unitdir}/system
-	install -m 0644 ${WORKDIR}/rpcbind.socket ${D}${systemd_unitdir}/system
-	install -m 0644 ${WORKDIR}/rpcbind.service ${D}${systemd_unitdir}/system
+	install -d ${D}${systemd_system_unitdir}
+	install -m 0644 ${WORKDIR}/rpcbind.socket ${D}${systemd_system_unitdir}
+	install -m 0644 ${WORKDIR}/rpcbind.service ${D}${systemd_system_unitdir}
 	sed -i -e 's,@SBINDIR@,${sbindir},g' \
 		-e 's,@SYSCONFDIR@,${sysconfdir},g' \
-		${D}${systemd_unitdir}/system/rpcbind.service
+		${D}${systemd_system_unitdir}/rpcbind.service
 }
