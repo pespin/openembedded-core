@@ -25,14 +25,14 @@ do_install() {
     if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
         install -d ${D}${sysconfdir}/default
         install xserver-nodm.conf ${D}${sysconfdir}/default/xserver-nodm
-        install -d ${D}${systemd_unitdir}/system
-        install -m 0644 ${WORKDIR}/xserver-nodm.service ${D}${systemd_unitdir}/system
+        install -d ${D}${systemd_system_unitdir}
+        install -m 0644 ${WORKDIR}/xserver-nodm.service ${D}${systemd_system_unitdir}
         if [ "${ROOTLESS_X}" = "1" ] ; then
             sed -i 's!^HOME=.*!HOME=/home/xuser!' ${D}${sysconfdir}/default/xserver-nodm
-            sed -i 's!^User=.*!User=xuser!' ${D}${systemd_unitdir}/system/xserver-nodm.service
+            sed -i 's!^User=.*!User=xuser!' ${D}${systemd_system_unitdir}/xserver-nodm.service
         else
             sed -i 's!^HOME=.*!HOME=${ROOT_HOME}!' ${D}${sysconfdir}/default/xserver-nodm
-            sed -i '/^User=/d' ${D}${systemd_unitdir}/system/xserver-nodm.service
+            sed -i '/^User=/d' ${D}${systemd_system_unitdir}/xserver-nodm.service
         fi
     fi
 
