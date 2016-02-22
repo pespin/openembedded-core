@@ -19,10 +19,10 @@ do_install_append() {
 	install -d ${D}${sysconfdir}/init.d
 	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/oprofileui-server
 
-	install -d ${D}${systemd_unitdir}/system
-	install -m 0644 ${WORKDIR}/oprofileui-server.service ${D}${systemd_unitdir}/system/
+	install -d ${D}${systemd_system_unitdir}
+	install -m 0644 ${WORKDIR}/oprofileui-server.service ${D}${systemd_system_unitdir}/
 	sed -i -e 's,@SYSCONFDIR@,${sysconfdir},g' \
-		-e 's,@BINDIR@,${bindir},g' ${D}${systemd_unitdir}/system/oprofileui-server.service
+		-e 's,@BINDIR@,${bindir},g' ${D}${systemd_system_unitdir}/oprofileui-server.service
 }
 
 inherit update-rc.d systemd
