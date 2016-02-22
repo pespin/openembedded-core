@@ -52,13 +52,12 @@ do_install_append () {
 	fi
 
 	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','false','true',d)};then
-		install -d ${D}${systemd_unitdir}/system
-		install -m 0644 ${WORKDIR}/dpkg-configure.service ${D}${systemd_unitdir}/system/
+		install -d ${D}${systemd_system_unitdir}
+		install -m 0644 ${WORKDIR}/dpkg-configure.service ${D}${systemd_system_unitdir}/
 		sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
 			-e 's,@SYSCONFDIR@,${sysconfdir},g' \
 			-e 's,@BINDIR@,${bindir},g' \
-			-e 's,@SYSTEMD_UNITDIR@,${systemd_unitdir},g' \
-			${D}${systemd_unitdir}/system/dpkg-configure.service
+			${D}${systemd_system_unitdir}/dpkg-configure.service
 	fi
 }
 
