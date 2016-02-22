@@ -29,7 +29,7 @@ do_install() {
     install -m 0755 ${WORKDIR}/portmap.init ${D}${sysconfdir}/init.d/portmap
     oe_runmake install DESTDIR=${D}
 
-    install -d ${D}${systemd_unitdir}/system
-    install -m 0644 ${WORKDIR}/portmap.service ${D}${systemd_unitdir}/system
-    sed -i -e 's,@BASE_SBINDIR@,${base_sbindir},g' ${D}${systemd_unitdir}/system/portmap.service
+    install -d ${D}${systemd_system_unitdir}
+    install -m 0644 ${WORKDIR}/portmap.service ${D}${systemd_system_unitdir}
+    sed -i -e 's,@BASE_SBINDIR@,${base_sbindir},g' ${D}${systemd_system_unitdir}/portmap.service
 }
