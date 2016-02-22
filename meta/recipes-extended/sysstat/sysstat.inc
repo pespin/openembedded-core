@@ -36,9 +36,9 @@ do_install() {
 	install -d ${D}/etc/default/volatiles
 	install -m 0644 ${WORKDIR}/99_sysstat ${D}/etc/default/volatiles
 
-	install -d ${D}${systemd_unitdir}/system
-	install -m 0644 ${WORKDIR}/sysstat.service ${D}${systemd_unitdir}/system
-	sed -i -e 's#@LIBDIR@#${libdir}#g' ${D}${systemd_unitdir}/system/sysstat.service
+	install -d ${D}${systemd_system_unitdir}
+	install -m 0644 ${WORKDIR}/sysstat.service ${D}${systemd_system_unitdir}
+	sed -i -e 's#@LIBDIR@#${libdir}#g' ${D}${systemd_system_unitdir}/sysstat.service
 }
 
 pkg_postinst_${PN} () {
