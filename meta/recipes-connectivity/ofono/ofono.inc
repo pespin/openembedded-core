@@ -16,7 +16,7 @@ PACKAGECONFIG ??= "\
     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
     "
-PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_unitdir}/system/,--with-systemdunitdir="
+PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_system_unitdir}/,--with-systemdunitdir="
 PACKAGECONFIG[bluez] = "--enable-bluetooth, --disable-bluetooth, ${BLUEZ}"
 
 EXTRA_OECONF += "--enable-test"
@@ -32,6 +32,6 @@ PACKAGES =+ "${PN}-tests"
 
 RDEPENDS_${PN} += "dbus"
 
-FILES_${PN} += "${base_libdir}/udev ${systemd_unitdir}"
+FILES_${PN} += "${base_libdir}/udev ${systemd_system_unitdir}"
 FILES_${PN}-tests = "${libdir}/${BPN}/test"
 RDEPENDS_${PN}-tests = "python python-pygobject python-dbus"
