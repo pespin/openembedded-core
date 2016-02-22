@@ -32,7 +32,7 @@ def volatile_systemd_services(d):
 
 SYSTEMD_SERVICE_${PN} = "${@volatile_systemd_services(d)}"
 
-FILES_${PN} += "${systemd_unitdir}/system/*.service"
+FILES_${PN} += "${systemd_system_unitdir}/*.service"
 
 do_compile () {
     while read spec mountpoint; do
@@ -63,9 +63,9 @@ do_install () {
     install -d ${D}${base_sbindir}
     install -m 0755 mount-copybind ${D}${base_sbindir}/
 
-    install -d ${D}${systemd_unitdir}/system
+    install -d ${D}${systemd_system_unitdir}
     for service in ${SYSTEMD_SERVICE_volatile-binds}; do
-        install -m 0644 $service ${D}${systemd_unitdir}/system/
+        install -m 0644 $service ${D}${systemd_system_unitdir}/
     done
 }
 do_install[dirs] = "${WORKDIR}"
