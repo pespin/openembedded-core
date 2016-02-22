@@ -43,7 +43,7 @@ PACKAGECONFIG ??= "wispr \
 # local.conf or distro config
 # PACKAGECONFIG_append_pn-connman = " openvpn vpnc l2tp pptp"
 
-PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_unitdir}/system/ --with-tmpfilesdir=${sysconfdir}/tmpfiles.d/,--with-systemdunitdir='' --with-tmpfilesdir=''"
+PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_system_unitdir}/ --with-tmpfilesdir=${sysconfdir}/tmpfiles.d/,--with-systemdunitdir='' --with-tmpfilesdir=''"
 PACKAGECONFIG[wifi] = "--enable-wifi, --disable-wifi, wpa-supplicant, wpa-supplicant"
 PACKAGECONFIG[bluez] = "--enable-bluetooth, --disable-bluetooth, ${BLUEZ}, ${BLUEZ}"
 PACKAGECONFIG[3g] = "--enable-ofono, --disable-ofono, ofono, ofono"
@@ -169,13 +169,13 @@ VPN technogies are implemented using plug-ins."
 FILES_${PN}-vpn += "${sbindir}/connman-vpnd \
                     ${sysconfdir}/dbus-1/system.d/connman-vpn-dbus.conf \
                     ${datadir}/dbus-1/system-services/net.connman.vpn.service \
-                    ${systemd_unitdir}/system/connman-vpn.service"
+                    ${systemd_system_unitdir}/connman-vpn.service"
 
 SUMMARY_${PN}-wait-online = "A program that will return once ConnMan has connected to a network"
 DESCRIPTION_${PN}-wait-online = "A service that can be enabled so that \
 the system waits until a network connection is established."
 FILES_${PN}-wait-online += "${sbindir}/connmand-wait-online \
-                            ${systemd_unitdir}/system/connman-wait-online.service"
+                            ${systemd_system_unitdir}/connman-wait-online.service"
 
 SUMMARY_${PN}-plugin-vpn-openvpn = "An OpenVPN plugin for ConnMan VPN"
 DESCRIPTION_${PN}-plugin-vpn-openvpn = "The ConnMan OpenVPN plugin uses openvpn client \
