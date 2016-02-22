@@ -48,9 +48,9 @@ do_install_append() {
     install -d ${D}${sysconfdir}/default
     install -m 0755 ${WORKDIR}/distcc ${D}${sysconfdir}/init.d/
     install -m 0755 ${WORKDIR}/default ${D}${sysconfdir}/default/distcc
-    install -d ${D}${systemd_unitdir}/system/
-    install -m 0644 ${WORKDIR}/distcc.service ${D}${systemd_unitdir}/system
-    sed -i -e 's,@BINDIR@,${bindir},g' ${D}${systemd_unitdir}/system/distcc.service
+    install -d ${D}${systemd_system_unitdir}/
+    install -m 0644 ${WORKDIR}/distcc.service ${D}${systemd_system_unitdir}
+    sed -i -e 's,@BINDIR@,${bindir},g' ${D}${systemd_system_unitdir}/distcc.service
     ${DESKTOPINSTALL}
 }
 DESKTOPINSTALL = ""
@@ -65,7 +65,7 @@ FILES_${PN} = " ${sysconfdir} \
     ${bindir}/lsdistcc \
 		${bindir}/distccd \
 		${bindir}/distccmon-text \
-		${systemd_unitdir}/system/distcc.service"
+		${systemd_system_unitdir}/distcc.service"
 FILES_distcc-distmon-gnome = "  ${bindir}/distccmon-gnome \
 				${datadir}/distcc"
 
