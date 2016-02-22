@@ -48,13 +48,12 @@ do_install_append () {
 	install -d ${D}${OPKGLIBDIR}/opkg
 
 	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)};then
-		install -d ${D}${systemd_unitdir}/system
-		install -m 0644 ${WORKDIR}/opkg-configure.service ${D}${systemd_unitdir}/system/
+		install -d ${D}${systemd_system_unitdir}
+		install -m 0644 ${WORKDIR}/opkg-configure.service ${D}${systemd_system_unitdir}/
 		sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
 			-e 's,@SYSCONFDIR@,${sysconfdir},g' \
 			-e 's,@BINDIR@,${bindir},g' \
-			-e 's,@SYSTEMD_UNITDIR@,${systemd_unitdir},g' \
-			${D}${systemd_unitdir}/system/opkg-configure.service
+			${D}${systemd_system_unitdir}/opkg-configure.service
 	fi
 }
 
@@ -68,7 +67,7 @@ RPROVIDES_${PN} = "opkg-collateral"
 PACKAGES =+ "libopkg"
 
 FILES_libopkg = "${libdir}/*.so.* ${OPKGLIBDIR}/opkg/"
-FILES_${PN} += "${systemd_unitdir}/system/"
+FILES_${PN} += "${systemd_system_unitdir}/"
 
 BBCLASSEXTEND = "native nativesdk"
 
