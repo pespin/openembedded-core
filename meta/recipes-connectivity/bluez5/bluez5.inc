@@ -69,14 +69,14 @@ ALLOW_EMPTY_libasound-module-bluez = "1"
 PACKAGES =+ "libasound-module-bluez ${PN}-testtools ${PN}-obex ${PN}-noinst-tools"
 
 FILES_libasound-module-bluez = "${libdir}/alsa-lib/lib*.so ${datadir}/alsa"
-FILES_${PN} += "${libdir}/bluetooth/plugins/*.so ${base_libdir}/udev/ ${nonarch_base_libdir}/udev/ ${systemd_unitdir}/ ${datadir}/dbus-1"
+FILES_${PN} += "${libdir}/bluetooth/plugins/*.so ${base_libdir}/udev/ ${nonarch_base_libdir}/udev/ ${systemd_system_unitdir}/ ${datadir}/dbus-1"
 FILES_${PN}-dev += "\
   ${libdir}/bluetooth/plugins/*.la \
   ${libdir}/alsa-lib/*.la \
 "
 
 FILES_${PN}-obex = "${libexecdir}/bluetooth/obexd \
-                    ${exec_prefix}/lib/systemd/user/obex.service \
+                    ${systemd_user_unitdir}/obex.service \
                     ${datadir}/dbus-1/services/org.bluez.obex.service \
                    "
 SYSTEMD_SERVICE_${PN}-obex = "obex.service"
