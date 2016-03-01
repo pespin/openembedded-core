@@ -260,7 +260,7 @@ do_install() {
 		echo 'L! ${sysconfdir}/resolv.conf - - - - ../run/resolv.conf' >>${D}${exec_prefix}/lib/tmpfiles.d/etc.conf
 		echo 'f /run/resolv.conf 0644 root root' >>${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf
 	fi
-	install -Dm 0755 ${S}/src/systemctl/systemd-sysv-install.SKELETON ${D}${systemd_unitdir}/systemd-sysv-install
+	install -Dm 0755 ${S}/src/systemctl/systemd-sysv-install.SKELETON ${D}${nonarch_base_libdir}/systemd/systemd-sysv-install
 }
 
 do_install_ptest () {
@@ -411,7 +411,7 @@ FILES_${PN} = " ${base_bindir}/* \
                 ${sysconfdir}/init.d/README \
                 ${sysconfdir}/resolv.conf \
                 ${rootlibexecdir}/systemd/* \
-                ${systemd_unitdir}/* \
+                ${nonarch_base_libdir}/systemd/* \
                 ${base_libdir}/security/*.so \
                 ${libdir}/libnss_* \
                 /cgroup \
