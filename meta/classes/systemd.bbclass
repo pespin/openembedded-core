@@ -179,17 +179,24 @@ python systemd_populate_packages() {
 
 PACKAGESPLITFUNCS_prepend = "systemd_populate_packages "
 
-python rm_systemd_unitdir (){
+python rm_systemd_dir (){
     import shutil
     if not bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d):
-        systemd_unitdir = oe.path.join(d.getVar("D", True), d.getVar('systemd_unitdir', True))
-        if os.path.exists(systemd_unitdir):
-            shutil.rmtree(systemd_unitdir)
-        systemd_libdir = os.path.dirname(systemd_unitdir)
+        systemd_system_dir = oe.path.join(d.getVar("D", True), d.getVar('nonarch_base_libdir', True), 'systemd')
+        if os.path.exists(systemd_system_dir):
+            shutil.rmtree(systemd_system_dir)
+        systemd_libdir = os.path.dirname(systemd_system_dir)
+        if (os.path.exists(systemd_libdir) and not os.listdir(systemd_libdir)):
+            os.rmdir(systemd_libdir)
+
+        systemd_user_dir = oe.path.join(d.getVar("D", True), d.getVar('nonarch_libdir', True), 'systemd')
+        if os.path.exists(systemd_user_dir):
+            shutil.rmtree(systemd_user_dir)
+        systemd_libdir = os.path.dirname(systemd_user_dir)
         if (os.path.exists(systemd_libdir) and not os.listdir(systemd_libdir)):
             os.rmdir(systemd_libdir)
 }
-do_install[postfuncs] += "rm_systemd_unitdir "
+do_install[postfuncs] += "rm_systemd_dir "
 
 python rm_sysvinit_initddir (){
     import shutil
